@@ -15,7 +15,7 @@ export class WebService {
   constructor(private http: HttpClient, private router: Router) { }
 
   hasVehicle() {
-    this.http.get(`${this.baseUrl}/hasVehicle`).subscribe(response => {
+    this.http.get(`${this.baseUrl}/hasVehicle`).pipe(catchError(this.handleError)).subscribe(response => {
       if (response) { //user has vehicle settings
         this.router.navigate(['/main']);
       } else {

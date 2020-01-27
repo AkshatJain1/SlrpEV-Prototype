@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var moment = require('moment');
-
+var path = require('path');
 var app = express();
 
 
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 var api = express.Router();
 
 api.get('/sessions', (req, res) => {
-    res.json(user.sessions);
+    res.status(200).json(user.sessions);
 });
 
 api.post('/addSession', (req, res) => {
@@ -81,6 +81,12 @@ api.post('/currentSession', (req, res) => {
 
 const port = process.env.PORT || 8080;
 
+
 app.use('/api', api);
+
+app.use(express.static(path.join(__dirname, 'public')))
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 app.listen(port);
