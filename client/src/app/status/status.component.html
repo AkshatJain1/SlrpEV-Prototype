@@ -1,0 +1,23 @@
+<mat-toolbar>
+    <span>Status</span>
+</mat-toolbar>
+
+<mat-card [style.height]="'100%'">
+    <mat-card-content>
+        <mat-progress-spinner style="margin: 0 auto;" mode='determinate' color='primary' diameter=120 value=70></mat-progress-spinner>
+        <div>
+            <h1 style="margin-block-start: 2em; margin-block-end: 0; font-size: 1.2em;">Charging Status: </h1>
+            <p style="margin-block-start: 2px; margin-block-end: 0.25em;">28 out of 40 miles added</p>
+        </div>
+        <!-- <mat-divider></mat-divider> -->
+        <hr>
+        <div>
+            <h1 style="margin-block-start: 0.35em; margin-block-end: 0; font-size: 1.2em;">Session Time: </h1>
+            <p style="margin-block-start: 6px; font-size: 125%">3h 20 min remaining</p>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions style="text-align: center">
+        <button mat-raised-button style="display: inline-block" color="primary"> Previous Sessions</button>
+    </mat-card-actions>
+</mat-card>

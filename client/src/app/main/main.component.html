@@ -1,0 +1,57 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<mat-toolbar>
+    <span>Charge Settings</span>
+</mat-toolbar>
+
+<mat-card [style.textAlign]="center" [style.height]="'100%'">
+    <mat-card-content [style.display]="inline-block">
+        <div>
+            <h3>Miles Needed:</h3>
+            <div><mat-slider [style.width]="'95%'" min=0 max=200 thumbLabel [(ngModel)]="chargeSettings.milesNeeded" ></mat-slider><div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">200</span></div></div>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            <h3>Type of Charging: </h3>
+            <mat-radio-group style="display: flex; flex-direction: column; margin: 15px 0;" [(ngModel)]="chargeSettings.flexible">
+                <mat-radio-button [value] = "false" [style.margin]="'5px'">
+                    <div *ngIf="!chargeSettings.flexible; then pricingBlockI else simpleBlockI"></div>
+                    <ng-template #simpleBlockI>Immediate</ng-template>
+                    <ng-template #pricingBlockI>
+                        <b>Immediate: </b><span class="pricing_det">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi -- Completed by {{formatLabel(0)}}</span>
+                        <p class="pricing_det" style="margin-block-start:0; margin-block-end:0;">Additional $5 per hour past {{formatLabel(15)}}</p>
+                        <p class="pricing_det" style="margin-block-start:0; margin-block-end:0;">25 miles added per hour, until fully charged</p> 
+                    </ng-template>
+                </mat-radio-button>
+                <mat-radio-button [value] = "true" [style.margin]="'5px'">
+                    <div *ngIf="chargeSettings.flexible; then pricingBlockF else simpleBlockF"></div>
+                    <ng-template #simpleBlockF>Flexible</ng-template>
+                    <ng-template #pricingBlockF>
+                        <b>Flexible: </b><span class="pricing_det">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi / {{minToHours()}} -- Pick up {{formatLabel(depTimeSlider)}}</span>
+                        <p class="pricing_det" style="margin-block-start:0; margin-block-end:0;">Additional $10 per hour past {{formatLabel(depTimeSlider+15)}}. No additional range.</p>
+                        <p class="pricing_det" style="margin-block-start:0; margin-block-end:0;"><b>Climate Friendly Choice: </b> 10% less CO2 emissions!</p>
+                    </ng-template>
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div *ngIf="!chargeSettings.flexible">
+            <p style="margin-block-end: 2px">Departure Time: {{formatLabel(0)}}</p>
+            <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
+        </div>
+        <mat-divider *ngIf="chargeSettings.flexible"></mat-divider>
+        <mat-card [style.marginTop]="'2em'" *ngIf="chargeSettings.flexible" [style.backgroundColor]="'#3a155c'">
+            <mat-card-content>
+                <p style="margin-block-end: 2px">Departure Time: {{formatLabel(depTimeSlider)}}</p>
+                <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
+
+                <div><input [style.width]="'95%'" type="range" min="0" max="720" step="1" class="slider" id="myRange" value="0" [(ngModel)]="depTimeSlider"> <div class="sliderLabelsContainer" [style.marginTop]="'5px'"><span class="sliderLabel">{{formatLabel(0)}}</span> <span class="sliderLabel">{{formatLabel(720)}}</span></div></div>
+            </mat-card-content>
+        </mat-card>
+    </mat-card-content>
+
+    <mat-card-actions style="text-align: center;">
+        <button mat-raised-button type="submit" [disabled] = "!isSubmitValid()" routerLink = '/status' style="display: inline-block" color="primary">Charge!</button>
+        <p routerLink="/noThanks" > <u>No Thanks</u></p>
+    </mat-card-actions>
+    <footer class= "foot"><div style="display: flex; justify-content: space-between;"><span>* assuming no overstay costs</span> <span><mat-icon routerLink="/vehicleSettings">edit</mat-icon></span></div></footer>
+</mat-card>

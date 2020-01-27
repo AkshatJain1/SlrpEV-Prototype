@@ -1,0 +1,41 @@
+<mat-toolbar>
+    <span>Vehicle Settings</span>
+</mat-toolbar>
+
+<mat-card style="text-align: center; height: 100%">
+    <form [formGroup]="formCustom" (ngSubmit) = "onSubmit()">
+        <mat-card-content>
+                <mat-form-field >
+                    <mat-select placeholder= "Vehicle Type" required [(value)]="vehicleType">
+                        <mat-option *ngFor="let vehicle of presetCarOptions" [value]="vehicle.name">
+                            {{vehicle.name}}
+                        </mat-option>
+                        <mat-option value="Custom">Custom</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-card *ngIf="vehicleType=='Custom'" [style.backgroundColor]="'#3a155c'">
+                    <mat-list>
+                        <mat-list-item>
+                            Vehicle Name: <mat-form-field [style.marginLeft]="'1em'">
+                                <input style = "width:20em" matInput type="text" formControlName="name" required>
+                            </mat-form-field>
+                        </mat-list-item>
+                        <mat-list-item>
+                            Vehicle Range (Miles): <div [style.marginLeft]="'1em'"><mat-slider min=0 max=300 thumbLabel formControlName="range"></mat-slider> <div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">300</span></div></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            Battery Capacity (kWh): <div [style.marginLeft]="'1em'"><mat-slider min=0 max=200 thumbLabel formControlName="capacity"></mat-slider> <div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">200</span></div></div>
+                        </mat-list-item>
+                        <mat-list-item>
+                            Driving Efficiency (Miles / kWh): <div [style.marginLeft]="'1em'"><mat-slider step=0.1 min=0 max=5.0 thumbLabel formControlName="efficiency"></mat-slider> <div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">5.0</span></div></div>
+                        </mat-list-item>
+                    </mat-list>
+                </mat-card>
+        </mat-card-content>
+
+        <mat-card-actions style="position: absolute; top: 70%; left: 45%">
+            <button mat-button type="submit" [disabled] = "(!formCustom.valid && vehicleType=='Custom') || vehicleType==''">Submit</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
