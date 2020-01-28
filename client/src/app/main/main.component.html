@@ -8,7 +8,7 @@
     <mat-card-content [style.display]="inline-block">
         <div>
             <h3>Miles Needed:</h3>
-            <div><mat-slider [style.width]="'95%'" min=0 max=200 thumbLabel [(ngModel)]="chargeSettings.milesNeeded" ></mat-slider><div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">200</span></div></div>
+            <div><mat-slider [style.width]="'95%'" min=0 max=200 step=5 thumbLabel [(ngModel)]="chargeSettings.milesNeeded" ></mat-slider><div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">200</span></div></div>
         </div>
         <mat-divider></mat-divider>
         <div>
@@ -34,19 +34,17 @@
                 </mat-radio-button>
             </mat-radio-group>
         </div>
-        <div *ngIf="!chargeSettings.flexible">
-            <p style="margin-block-end: 2px">Departure Time: {{formatLabel(0)}}</p>
-            <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
-        </div>
-        <mat-divider *ngIf="chargeSettings.flexible"></mat-divider>
         <mat-card [style.marginTop]="'2em'" *ngIf="chargeSettings.flexible" [style.backgroundColor]="'#3a155c'">
             <mat-card-content>
-                <p style="margin-block-end: 2px">Departure Time: {{formatLabel(depTimeSlider)}}</p>
-                <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
-
-                <div><input [style.width]="'95%'" type="range" min="0" max="720" step="1" class="slider" id="myRange" value="0" [(ngModel)]="depTimeSlider"> <div class="sliderLabelsContainer" [style.marginTop]="'5px'"><span class="sliderLabel">{{formatLabel(0)}}</span> <span class="sliderLabel">{{formatLabel(720)}}</span></div></div>
+                <div><input [style.width]="'95%'" type="range" min="0" max="720" step="5" class="slider" id="myRange" value="0" [(ngModel)]="depTimeSlider"> <div class="sliderLabelsContainer" [style.marginTop]="'5px'"><span class="sliderLabel">{{formatLabel(0)}}</span> <span class="sliderLabel">{{formatLabel(720)}}</span></div></div>
             </mat-card-content>
         </mat-card>
+        <br *ngIf="chargeSettings.flexible">
+        <mat-divider *ngIf="chargeSettings.flexible"></mat-divider>
+        <div>
+            <p style="margin-block-end: 2px">Departure Time: {{chargeSettings.flexible ? formatLabel(depTimeSlider) : formatLabel(0)}}</p>
+            <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
+        </div>
     </mat-card-content>
 
     <mat-card-actions style="text-align: center;">
