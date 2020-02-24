@@ -55,8 +55,17 @@ api.post('/addSession', (req, res) => {
     res.sendStatus(200);
 });
 
+
 api.get('/hasVehicle', (req, res) => {
     res.json( ("vehicleSettings" in user) );
+});
+
+api.get('/vehicle', (req, res) => {
+    if("vehicleSettings" in user) {
+        res.json(user.vehicleSettings);
+    } else {
+        res.json({success: false, message: 'no vehicle set'});
+    }
 });
 
 api.post('/setVehicle', (req, res) => {
@@ -64,6 +73,7 @@ api.post('/setVehicle', (req, res) => {
     user.vehicleSettings = req.body;
     res.sendStatus(200);
 });
+
 
 api.get('/currentSession', (req, res) => {
     if("currentSession" in user) {
@@ -73,7 +83,7 @@ api.get('/currentSession', (req, res) => {
     }
 });
 
-api.post('/currentSession', (req, res) => {
+api.post('/setCurrentSession', (req, res) => {
     user.currentSession = req.body;
     res.sendStatus(200);
 });

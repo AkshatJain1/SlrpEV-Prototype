@@ -71,7 +71,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n\n<mat-toolbar>\n    <span>Charge Settings</span>\n</mat-toolbar>\n\n<mat-card [style.textAlign]=\"center\" [style.height]=\"'100%'\">\n    <mat-card-content [style.display]=\"inline-block\">\n        <div>\n            <h3>Miles Needed:</h3>\n            <div><mat-slider [style.width]=\"'95%'\" min=0 max=200 step=5 thumbLabel [(ngModel)]=\"chargeSettings.milesNeeded\" ></mat-slider><div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">200</span></div></div>\n        </div>\n        <mat-divider></mat-divider>\n        <div>\n            <h3>Type of Charging: </h3>\n            <mat-radio-group style=\"display: flex; flex-direction: column; margin: 15px 0;\" [(ngModel)]=\"chargeSettings.flexible\">\n                <mat-radio-button [value] = \"false\" [style.margin]=\"'5px'\">\n                    <div *ngIf=\"!chargeSettings.flexible; then pricingBlockI else simpleBlockI\"></div>\n                    <ng-template #simpleBlockI>Immediate</ng-template>\n                    <ng-template #pricingBlockI>\n                        <b>Immediate: </b><span class=\"pricing_det\">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi -- Completed by {{formatLabel(0)}}</span>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">Additional $5 per hour past {{formatLabel(15)}}</p>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">25 miles added per hour, until fully charged</p> \n                    </ng-template>\n                </mat-radio-button>\n                <mat-radio-button [value] = \"true\" [style.margin]=\"'5px'\">\n                    <div *ngIf=\"chargeSettings.flexible; then pricingBlockF else simpleBlockF\"></div>\n                    <ng-template #simpleBlockF>Flexible</ng-template>\n                    <ng-template #pricingBlockF>\n                        <b>Flexible: </b><span class=\"pricing_det\">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi / {{minToHours()}} -- Pick up {{formatLabel(depTimeSlider)}}</span>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">Additional $10 per hour past {{formatLabel(depTimeSlider+15)}}. No additional range.</p>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\"><b>Climate Friendly Choice: </b> 10% less CO2 emissions!</p>\n                    </ng-template>\n                </mat-radio-button>\n            </mat-radio-group>\n        </div>\n        <mat-card [style.marginTop]=\"'2em'\" *ngIf=\"chargeSettings.flexible\" [style.backgroundColor]=\"'#3a155c'\">\n            <mat-card-content>\n                <div><input [style.width]=\"'95%'\" type=\"range\" min=\"0\" max=\"720\" step=\"5\" class=\"slider\" id=\"myRange\" value=\"0\" [(ngModel)]=\"depTimeSlider\"> <div class=\"sliderLabelsContainer\" [style.marginTop]=\"'5px'\"><span class=\"sliderLabel\">{{formatLabel(0)}}</span> <span class=\"sliderLabel\">{{formatLabel(720)}}</span></div></div>\n            </mat-card-content>\n        </mat-card>\n        <br *ngIf=\"chargeSettings.flexible\">\n        <mat-divider *ngIf=\"chargeSettings.flexible\"></mat-divider>\n        <div>\n            <p style=\"margin-block-end: 2px\">Departure Time: {{chargeSettings.flexible ? formatLabel(depTimeSlider) : formatLabel(0)}}</p>\n            <p style=\"margin-block-start: 2px\">Total Cost* : ${{getPrice()}}</p>\n        </div>\n    </mat-card-content>\n\n    <mat-card-actions style=\"text-align: center;\">\n        <button mat-raised-button type=\"submit\" [disabled] = \"!isSubmitValid()\" routerLink = '/status' style=\"display: inline-block\" color=\"primary\">Charge!</button>\n        <p routerLink=\"/noThanks\" > <u>No Thanks</u></p>\n    </mat-card-actions>\n    <footer class= \"foot\"><div style=\"display: flex; justify-content: space-between;\"><span>* assuming no overstay costs</span> <span><mat-icon routerLink=\"/vehicleSettings\">edit</mat-icon></span></div></footer>\n</mat-card>\n";
+    __webpack_exports__["default"] = "<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\n<link href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css\" rel=\"stylesheet\" integrity=\"sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh\" crossorigin=\"anonymous\">\n<script src=\"https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js\" integrity=\"sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6\" crossorigin=\"anonymous\"></script>\n\n<mat-toolbar style=\"display: flex; justify-content: space-around;\">\n    <span>Charge Settings</span>\n    <img src=\"../../assets/logo.png\" alt=\"logo\" width=\"74em\" height=\"45em\">\n</mat-toolbar>\n\n<mat-card [style.textAlign]=\"center\" [style.height]=\"'100%'\">\n    <mat-card-content style=\"display: flex; flex-direction: column; height: 60%; justify-content: space-around\">\n        <div>\n            <h3>Miles Needed:</h3>\n            <div><mat-slider [style.width]=\"'95%'\" min=0 [max] = \"getVehicleRange()\" step=5 thumbLabel [(ngModel)]=\"chargeSettings.milesNeeded\" ></mat-slider><div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">{{getVehicleRange()}}</span></div></div>\n        </div>\n        <!-- <mat-divider></mat-divider> -->\n        <div>\n            <h3>Type of Charging: </h3>\n            <mat-radio-group style=\"display: flex; flex-direction: column; margin: 15px 0;\" [(ngModel)]=\"chargeSettings.flexible\">\n                <mat-radio-button [value] = \"false\" [style.margin]=\"'5px'\">\n                    <div *ngIf=\"!chargeSettings.flexible; then pricingBlockI else simpleBlockI\"></div>\n                    <ng-template #simpleBlockI>Immediate</ng-template>\n                    <ng-template #pricingBlockI>\n                        <b>Immediate: </b><span class=\"pricing_det\">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi -- Completed by {{formatLabel(0)}}</span>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">Additional $5 per hour past {{formatLabel(15)}}</p>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">25 miles added per hour, until fully charged</p> \n                    </ng-template>\n                </mat-radio-button>\n                <mat-radio-button [value] = \"true\" [style.margin]=\"'5px'\">\n                    <div *ngIf=\"chargeSettings.flexible; then pricingBlockF else simpleBlockF\"></div>\n                    <ng-template #simpleBlockF>Flexible</ng-template>\n                    <ng-template #pricingBlockF>\n                        <b>Flexible: </b><span class=\"pricing_det\">${{getPrice()}} -- {{chargeSettings.milesNeeded}} mi / {{minToHours()}} -- Pick up {{formatLabel(depTimeSlider)}}</span>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\">Additional $10 per hour past {{formatLabel(depTimeSlider+15)}}. No additional range.</p>\n                        <p class=\"pricing_det\" style=\"margin-block-start:0; margin-block-end:0;\"><b>Climate Friendly Choice: </b> 10% less CO2 emissions!</p>\n                    </ng-template>\n                </mat-radio-button>\n            </mat-radio-group>\n        </div>\n        <mat-card *ngIf=\"chargeSettings.flexible\" [style.backgroundColor]=\"'#6699CC'\">\n            <mat-card-content>\n                <div><input [style.width]=\"'95%'\" type=\"range\" min=\"0\" max=\"720\" step=\"5\" class=\"slider\" id=\"myRange\" value=\"0\" [(ngModel)]=\"depTimeSlider\"> <div class=\"sliderLabelsContainer\" [style.marginTop]=\"'5px'\"><span class=\"sliderLabel\">{{formatLabel(0)}}</span> <span class=\"sliderLabel\">{{formatLabel(720)}}</span></div></div>\n            </mat-card-content>\n        </mat-card>\n        <!-- <br *ngIf=\"chargeSettings.flexible\"> -->\n        <!-- <mat-divider *ngIf=\"chargeSettings.flexible\"></mat-divider> -->\n        <div style=\"display: flex;justify-content: space-evenly;\">\n            <span style=\"font-size: larger;\">Departure Time: <b>{{chargeSettings.flexible ? formatLabel(depTimeSlider) : formatLabel(0)}}</b></span>\n            <span style=\"font-size: larger;\">Total Cost * : <b>${{getPrice()}}</b></span>\n        </div>\n    </mat-card-content>\n\n    <mat-card-actions style=\"text-align: center;\">\n        <button mat-raised-button type=\"submit\" [disabled] = \"!isSubmitValid()\" routerLink = '/status' style=\"display: inline-block\" color=\"primary\">Charge!</button>\n        <p routerLink=\"/noThanks\" style=\"margin-top: 12px;\" > <u>No Thanks</u></p>\n    </mat-card-actions>\n    <footer class= \"foot\"><div style=\"display: flex; justify-content: space-between;\"><span>* assuming no overstay costs</span> <span><mat-icon routerLink=\"/vehicleSettings\">edit</mat-icon></span></div></footer>\n</mat-card>\n";
     /***/
   },
 
@@ -111,7 +111,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<mat-toolbar>\n    <span>Previous Sessions</span>\n</mat-toolbar>";
+    __webpack_exports__["default"] = "<mat-toolbar style=\"display: flex; justify-content: space-around;\">\n    <span>Previous Sessions</span>\n    <img src=\"../../assets/logo.png\" alt=\"logo\" width=\"74em\" height=\"45em\">\n</mat-toolbar>";
     /***/
   },
 
@@ -131,7 +131,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<mat-toolbar>\n    <span>Status</span>\n</mat-toolbar>\n\n<mat-card [style.height]=\"'100%'\">\n    <mat-card-content>\n        <mat-progress-spinner style=\"margin: 0 auto;\" mode='determinate' color='primary' diameter=120 value=70></mat-progress-spinner>\n        <div>\n            <h1 style=\"margin-block-start: 2em; margin-block-end: 0; font-size: 1.2em;\">Charging Status: </h1>\n            <p style=\"margin-block-start: 2px; margin-block-end: 0.25em;\">28 out of 40 miles added</p>\n        </div>\n        <!-- <mat-divider></mat-divider> -->\n        <hr>\n        <div>\n            <h1 style=\"margin-block-start: 0.35em; margin-block-end: 0; font-size: 1.2em;\">Session Time: </h1>\n            <p style=\"margin-block-start: 6px; font-size: 125%\">3h 20 min remaining</p>\n        </div>\n    </mat-card-content>\n\n    <mat-card-actions style=\"text-align: center\">\n        <button mat-raised-button style=\"display: inline-block\" color=\"primary\"> Previous Sessions</button>\n    </mat-card-actions>\n</mat-card>";
+    __webpack_exports__["default"] = "<mat-toolbar style=\"display: flex; justify-content: space-around;\">\n    <span>Status</span>\n    <img src=\"../../assets/logo.png\" alt=\"logo\" width=\"74em\" height=\"45em\">\n</mat-toolbar>\n\n<mat-card [style.height]=\"'100%'\">\n    <mat-card-content>\n        <mat-progress-spinner style=\"margin: 0 auto;\" mode='determinate' color='primary' diameter=120 value=70></mat-progress-spinner>\n        <div>\n            <h1 style=\"margin-block-start: 2em; margin-block-end: 0; font-size: 1.2em;\">Charging Status: </h1>\n            <p style=\"margin-block-start: 2px; margin-block-end: 0.25em;\">28 out of 40 miles added</p>\n        </div>\n        <!-- <mat-divider></mat-divider> -->\n        <hr>\n        <div>\n            <h1 style=\"margin-block-start: 0.35em; margin-block-end: 0; font-size: 1.2em;\">Session Time: </h1>\n            <p style=\"margin-block-start: 6px; font-size: 125%\">3h 20 min remaining</p>\n        </div>\n    </mat-card-content>\n\n    <mat-card-actions style=\"text-align: center\">\n        <button mat-raised-button style=\"display: inline-block\" color=\"primary\"> Previous Sessions</button>\n    </mat-card-actions>\n</mat-card>";
     /***/
   },
 
@@ -151,7 +151,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<mat-toolbar>\n    <span>Vehicle Settings</span>\n</mat-toolbar>\n\n<mat-card style=\"text-align: center; height: 100%\">\n    <form [formGroup]=\"formCustom\" (ngSubmit) = \"onSubmit()\">\n        <mat-card-content>\n                <mat-form-field >\n                    <mat-select placeholder= \"Vehicle Type\" required [(value)]=\"vehicleType\">\n                        <mat-option *ngFor=\"let vehicle of presetCarOptions\" [value]=\"vehicle.name\">\n                            {{vehicle.name}}\n                        </mat-option>\n                        <mat-option value=\"Custom\">Custom</mat-option>\n                    </mat-select>\n                </mat-form-field>\n                \n                <mat-card *ngIf=\"vehicleType=='Custom'\" [style.backgroundColor]=\"'#3a155c'\">\n                    <mat-list>\n                        <mat-list-item>\n                            Vehicle Name: <mat-form-field [style.marginLeft]=\"'1em'\">\n                                <input style = \"width:20em\" matInput type=\"text\" formControlName=\"name\" required>\n                            </mat-form-field>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Vehicle Range (Miles): <div [style.marginLeft]=\"'1em'\"><mat-slider min=0 max=300 thumbLabel formControlName=\"range\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">300</span></div></div>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Battery Capacity (kWh): <div [style.marginLeft]=\"'1em'\"><mat-slider min=0 max=200 thumbLabel formControlName=\"capacity\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">200</span></div></div>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Driving Efficiency (Miles / kWh): <div [style.marginLeft]=\"'1em'\"><mat-slider step=0.1 min=0 max=5.0 thumbLabel formControlName=\"efficiency\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">5.0</span></div></div>\n                        </mat-list-item>\n                    </mat-list>\n                </mat-card>\n        </mat-card-content>\n\n        <mat-card-actions style=\"position: absolute; top: 70%; left: 45%\">\n            <button mat-button type=\"submit\" [disabled] = \"(!formCustom.valid && vehicleType=='Custom') || vehicleType==''\">Submit</button>\n        </mat-card-actions>\n    </form>\n</mat-card>";
+    __webpack_exports__["default"] = "<mat-toolbar style=\"display: flex; justify-content: space-around;\">\n    <span>Vehicle Settings</span>\n    <img src=\"../../assets/logo.png\" alt=\"logo\" width=\"74em\" height=\"45em\">\n</mat-toolbar>\n\n<mat-card style=\"text-align: center; height: 100%\">\n    <form [formGroup]=\"formCustom\" (ngSubmit) = \"onSubmit()\">\n        <mat-card-content>\n                <mat-form-field >\n                    <mat-select placeholder= \"Vehicle Type\" required [(value)]=\"vehicleType\">\n                        <mat-option *ngFor=\"let vehicle of presetCarOptions\" [value]=\"vehicle.name\">\n                            {{vehicle.name}}\n                        </mat-option>\n                        <mat-option value=\"Custom\">Custom</mat-option>\n                    </mat-select>\n                </mat-form-field>\n                \n                <mat-card *ngIf=\"vehicleType=='Custom'\" [style.backgroundColor]=\"'#3a155c'\">\n                    <mat-list>\n                        <mat-list-item>\n                            Vehicle Name: <mat-form-field [style.marginLeft]=\"'1em'\">\n                                <input style = \"width:20em\" matInput type=\"text\" formControlName=\"name\" required>\n                            </mat-form-field>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Vehicle Range (Miles): <div [style.marginLeft]=\"'1em'\"><mat-slider min=0 max=300 thumbLabel formControlName=\"range\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">300</span></div></div>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Battery Capacity (kWh): <div [style.marginLeft]=\"'1em'\"><mat-slider min=0 max=200 thumbLabel formControlName=\"capacity\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">200</span></div></div>\n                        </mat-list-item>\n                        <mat-list-item>\n                            Driving Efficiency (Miles / kWh): <div [style.marginLeft]=\"'1em'\"><mat-slider step=0.1 min=0 max=5.0 thumbLabel formControlName=\"efficiency\"></mat-slider> <div class=\"sliderLabelsContainer\" ><span class=\"sliderLabel\">0</span> <span class=\"sliderLabel\">5.0</span></div></div>\n                        </mat-list-item>\n                    </mat-list>\n                </mat-card>\n        </mat-card-content>\n\n        <mat-card-actions style=\"position: absolute; top: 70%; left: 45%\">\n            <button mat-button type=\"submit\" [disabled] = \"(!formCustom.valid && vehicleType=='Custom') || vehicleType==''\">Submit</button>\n        </mat-card-actions>\n    </form>\n</mat-card>";
     /***/
   },
 
@@ -1171,6 +1171,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           startTime: '',
           currentMiles: 0
         };
+        this.userVehicle = {
+          name: 'Default Vehicle',
+          range: 200,
+          efficiency: 2.85,
+          capacity: 50
+        };
+        this.EV_KWH_PER_HOUR = 6.6;
         this.CHARGING_PER_25_MILES_COST = 1;
         this.IMMEDIATE_OVERSTAY_PER_HOUR_COST = 5;
         this.FLEXIBLE_OVERSTAY_PER_HOUR_COST = 10;
@@ -1181,7 +1188,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(MainComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
+          var _this = this;
+
           this.web.hasVehicle();
+          this.web.getVehicle().subscribe(function (response) {
+            console.log('HEJRKLJEAKLJFKLDAJFKLDASJKLFDSAJKLFDAS');
+            console.log(response);
+            _this.userVehicle = response;
+          });
         }
       }, {
         key: "onSubmit",
@@ -1199,6 +1213,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return this.chargeSettings.flexible ? (this.CHARGING_PER_25_MILES_COST * (this.chargeSettings.milesNeeded / 25.0) + this.FLEXIBLE_PARKING_PER_MIN_COST * this.depTimeSlider).toFixed(2) : (this.CHARGING_PER_25_MILES_COST * (this.chargeSettings.milesNeeded / 25.0)).toFixed(2);
         }
       }, {
+        key: "getVehicleRange",
+        value: function getVehicleRange() {
+          return this.userVehicle.range;
+        }
+      }, {
         key: "minToHours",
         value: function minToHours() {
           var minutes = this.depTimeSlider % 60;
@@ -1212,7 +1231,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function formatLabel(value) {
           value = !value ? 0 : value;
           var hhPart = new Date().getHours();
-          var mmPart = new Date().getMinutes() + value + Math.trunc(this.chargeSettings.milesNeeded / 100 * 35 / 6.6 * 60);
+          var mmPart = new Date().getMinutes() + value + Math.trunc(this.chargeSettings.milesNeeded / this.userVehicle.efficiency / this.EV_KWH_PER_HOUR * 60);
 
           while (mmPart >= 60) {
             mmPart -= 60;
@@ -1556,20 +1575,55 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.web = web;
         this.vehicleType = "";
         this.presetCarOptions = [{
-          name: "Toyota Camry",
-          range: 200,
+          name: "Tesla Model 3 (Standard)",
+          range: 250,
+          capacity: 54,
+          efficiency: 3.846
+        }, {
+          name: "Tesla Model S (Standard)",
+          range: 373,
+          capacity: 60,
+          efficiency: 3.226
+        }, {
+          name: "Chevrolet Volt",
+          range: 420,
+          capacity: 53,
+          efficiency: 3.226
+        }, {
+          name: "Nissan Leaf",
+          range: 180,
           capacity: 50,
-          efficiency: 4.0
+          efficiency: 3.226
         }, {
-          name: "Honda Odyssey",
-          range: 350,
-          capacity: 70,
-          efficiency: 3.0
+          name: "Tesla Model X",
+          range: 325,
+          capacity: 100,
+          efficiency: 2.564
         }, {
-          name: "Tesla Model 3",
-          range: 400,
-          capacity: 120,
-          efficiency: 6.0
+          name: "Toyota Prius Prime",
+          range: 25,
+          capacity: 8.8,
+          efficiency: 4.00
+        }, {
+          name: "Ford Fusion",
+          range: 26,
+          capacity: 9,
+          efficiency: 3.030
+        }, {
+          name: "Ford C-Max Energi",
+          range: 20,
+          capacity: 7.6,
+          efficiency: 2.857
+        }, {
+          name: "Chevrolet Bolt EV",
+          range: 259,
+          capacity: 66,
+          efficiency: 3.571
+        }, {
+          name: "BMW i3",
+          range: 114,
+          capacity: 42.2,
+          efficiency: 3.226
         }];
         this.formCustom = fb.group({
           name: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
@@ -1585,10 +1639,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "onSubmit",
         value: function onSubmit() {
-          var _this = this;
+          var _this2 = this;
 
           if (this.vehicleType == 'Custom') this.web.setVehicle(this.formCustom.value);else this.web.setVehicle(this.presetCarOptions.find(function (val) {
-            return val.name == _this.vehicleType;
+            return val.name == _this2.vehicleType;
           }));
         }
       }]);
@@ -1695,26 +1749,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _createClass(WebService, [{
         key: "hasVehicle",
         value: function hasVehicle() {
-          var _this2 = this;
+          var _this3 = this;
 
           this.http.get("".concat(this.baseUrl, "/hasVehicle")).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError)).subscribe(function (response) {
             if (response) {
               //user has vehicle settings
-              _this2.router.navigate(['/main']);
+              _this3.router.navigate(['/main']);
             } else {
-              _this2.router.navigate(['/vehicleSettings']);
+              _this3.router.navigate(['/vehicleSettings']);
             }
           });
         }
       }, {
+        key: "getVehicle",
+        value: function getVehicle() {
+          return this.http.get("".concat(this.baseUrl, "/vehicle")).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError));
+        }
+      }, {
         key: "setVehicle",
         value: function setVehicle(vehicle) {
-          var _this3 = this;
+          var _this4 = this;
 
           this.http.post("".concat(this.baseUrl, "/setVehicle"), vehicle, {
             responseType: 'text'
           }).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["catchError"])(this.handleError)).subscribe(function (resp) {
-            _this3.router.navigate(['/main']);
+            _this4.router.navigate(['/main']);
           });
         }
       }, {
