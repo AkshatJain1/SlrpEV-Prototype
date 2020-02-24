@@ -10,7 +10,7 @@ import { throwError} from 'rxjs';
 })
 export class WebService {
 
-   baseUrl : string = "api"
+  baseUrl : string = "api"
 
   constructor(private http: HttpClient, private router: Router) { }
 
@@ -21,11 +21,13 @@ export class WebService {
       } else {
         this.router.navigate(['/vehicleSettings']);
       }
-    })
+    });
   }
 
+  getVehicle() {
+    return this.http.get<Vehicle>(`${this.baseUrl}/vehicle`).pipe(catchError(this.handleError));
+  }
 
-  
   setVehicle(vehicle: Vehicle) {
     this.http.post(`${this.baseUrl}/setVehicle`, vehicle, {responseType: 'text'})
       .pipe(catchError(this.handleError))

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebService } from '../web.service';
+import { Vehicle } from '../vehicle-settings/vehicle-settings.component';
 
 export interface ChargeSettings {
   milesNeeded: number;
@@ -14,7 +15,7 @@ export interface ChargeSettings {
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit {  
   depTimeSlider: number = 0;
   chargeSettings: ChargeSettings = {
     milesNeeded: 0,
@@ -23,6 +24,14 @@ export class MainComponent implements OnInit {
     startTime: '',
     currentMiles: 0,
   }
+  userVehicle: Vehicle = {
+    name: 'Default Vehicle',
+    range: 200,
+    efficiency: 2.85,
+    capacity: 50,
+  };
+
+  EV_KWH_PER_HOUR: number = 6.6;
   
   CHARGING_PER_25_MILES_COST:       number = 1;
   IMMEDIATE_OVERSTAY_PER_HOUR_COST: number = 5;
@@ -34,6 +43,11 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.web.hasVehicle();
+    this.web.getVehicle().subscribe((response: Vehicle) => {
+      console.log('HEJRKLJEAKLJFKLDAJFKLDASJKLFDSAJKLFDAS');
+      console.log(response)
+      this.userVehicle = response;
+    });
   }
 
   onSubmit() {
@@ -50,6 +64,10 @@ export class MainComponent implements OnInit {
             : (this.CHARGING_PER_25_MILES_COST * (this.chargeSettings.milesNeeded / 25.0)).toFixed(2);              
   }
 
+  getVehicleRange() {
+    return this.userVehicle.range;
+  }
+
 
   minToHours() {
     let minutes = this.depTimeSlider % 60;
@@ -64,7 +82,7 @@ export class MainComponent implements OnInit {
     value = !value ? 0 : value; 
 
     let hhPart = (new Date()).getHours()
-    let mmPart = (new Date()).getMinutes() + value + Math.trunc(((this.chargeSettings.milesNeeded / 100)*35/6.6)*60);
+    let mmPart = (new Date()).getMinutes() + value + Math.trunc(((this.chargeSettings.milesNeeded / this.userVehicle.efficiency) / this.EV_KWH_PER_HOUR)*60);
 
     while(mmPart >= 60) {
       mmPart -= 60;

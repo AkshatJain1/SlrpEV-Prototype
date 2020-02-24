@@ -1,16 +1,19 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-<mat-toolbar>
+<mat-toolbar style="display: flex; justify-content: space-around;">
     <span>Charge Settings</span>
+    <img src="../../assets/logo.png" alt="logo" width="74em" height="45em">
 </mat-toolbar>
 
 <mat-card [style.textAlign]="center" [style.height]="'100%'">
-    <mat-card-content [style.display]="inline-block">
+    <mat-card-content style="display: flex; flex-direction: column; height: 60%; justify-content: space-around">
         <div>
             <h3>Miles Needed:</h3>
-            <div><mat-slider [style.width]="'95%'" min=0 max=200 step=5 thumbLabel [(ngModel)]="chargeSettings.milesNeeded" ></mat-slider><div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">200</span></div></div>
+            <div><mat-slider [style.width]="'95%'" min=0 [max] = "getVehicleRange()" step=5 thumbLabel [(ngModel)]="chargeSettings.milesNeeded" ></mat-slider><div class="sliderLabelsContainer" ><span class="sliderLabel">0</span> <span class="sliderLabel">{{getVehicleRange()}}</span></div></div>
         </div>
-        <mat-divider></mat-divider>
+        <!-- <mat-divider></mat-divider> -->
         <div>
             <h3>Type of Charging: </h3>
             <mat-radio-group style="display: flex; flex-direction: column; margin: 15px 0;" [(ngModel)]="chargeSettings.flexible">
@@ -34,22 +37,22 @@
                 </mat-radio-button>
             </mat-radio-group>
         </div>
-        <mat-card [style.marginTop]="'2em'" *ngIf="chargeSettings.flexible" [style.backgroundColor]="'#3a155c'">
+        <mat-card *ngIf="chargeSettings.flexible" [style.backgroundColor]="'#6699CC'">
             <mat-card-content>
                 <div><input [style.width]="'95%'" type="range" min="0" max="720" step="5" class="slider" id="myRange" value="0" [(ngModel)]="depTimeSlider"> <div class="sliderLabelsContainer" [style.marginTop]="'5px'"><span class="sliderLabel">{{formatLabel(0)}}</span> <span class="sliderLabel">{{formatLabel(720)}}</span></div></div>
             </mat-card-content>
         </mat-card>
-        <br *ngIf="chargeSettings.flexible">
-        <mat-divider *ngIf="chargeSettings.flexible"></mat-divider>
-        <div>
-            <p style="margin-block-end: 2px">Departure Time: {{chargeSettings.flexible ? formatLabel(depTimeSlider) : formatLabel(0)}}</p>
-            <p style="margin-block-start: 2px">Total Cost* : ${{getPrice()}}</p>
+        <!-- <br *ngIf="chargeSettings.flexible"> -->
+        <!-- <mat-divider *ngIf="chargeSettings.flexible"></mat-divider> -->
+        <div style="display: flex;justify-content: space-evenly;">
+            <span style="font-size: larger;">Departure Time: <b>{{chargeSettings.flexible ? formatLabel(depTimeSlider) : formatLabel(0)}}</b></span>
+            <span style="font-size: larger;">Total Cost * : <b>${{getPrice()}}</b></span>
         </div>
     </mat-card-content>
 
     <mat-card-actions style="text-align: center;">
         <button mat-raised-button type="submit" [disabled] = "!isSubmitValid()" routerLink = '/status' style="display: inline-block" color="primary">Charge!</button>
-        <p routerLink="/noThanks" > <u>No Thanks</u></p>
+        <p routerLink="/noThanks" style="margin-top: 12px;" > <u>No Thanks</u></p>
     </mat-card-actions>
     <footer class= "foot"><div style="display: flex; justify-content: space-between;"><span>* assuming no overstay costs</span> <span><mat-icon routerLink="/vehicleSettings">edit</mat-icon></span></div></footer>
 </mat-card>

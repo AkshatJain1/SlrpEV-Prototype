@@ -21,22 +21,64 @@ export class VehicleSettingsComponent implements OnInit {
 
   presetCarOptions: Vehicle[] = [
     {
-      name: "Toyota Camry",
-      range: 200,
+      name: "Tesla Model 3 (Standard)",
+      range: 250,
+      capacity: 54,
+      efficiency: 3.846, // mi/kwh
+    },
+    {
+      name: "Tesla Model S (Standard)",
+      range: 373,
+      capacity: 60,
+      efficiency: 3.226,
+    },
+    {
+      name: "Chevrolet Volt",
+      range: 420,
+      capacity: 53,
+      efficiency: 3.226,
+    },
+    {
+      name: "Nissan Leaf",
+      range: 180,
       capacity: 50,
-      efficiency: 4.0,
+      efficiency: 3.226,
     },
     {
-      name: "Honda Odyssey",
-      range: 350,
-      capacity: 70,
-      efficiency: 3.0,
+      name: "Tesla Model X",
+      range: 325,
+      capacity: 100,
+      efficiency: 2.564,
     },
     {
-      name: "Tesla Model 3",
-      range: 400,
-      capacity: 120,
-      efficiency: 6.0,
+      name: "Toyota Prius Prime",
+      range: 25,
+      capacity: 8.8,
+      efficiency: 4.00,
+    },
+    {
+      name: "Ford Fusion",
+      range: 26,
+      capacity: 9,
+      efficiency: 3.030,
+    },
+    {
+      name: "Ford C-Max Energi",
+      range: 20,
+      capacity: 7.6,
+      efficiency: 2.857,
+    },
+    {
+      name: "Chevrolet Bolt EV",
+      range: 259,
+      capacity: 66,
+      efficiency: 3.571,
+    },
+    {
+      name: "BMW i3",
+      range: 114,
+      capacity: 42.2,
+      efficiency: 3.226,
     },
   ];
 
